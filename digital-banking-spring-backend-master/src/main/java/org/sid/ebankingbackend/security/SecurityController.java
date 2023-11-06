@@ -32,15 +32,15 @@ public class SecurityController {
         return authentication;
     }
     @PostMapping("/login")
-    public Map<String,String> login (String email, String password){
-        System.out.println(email+" "+password);
-        org.springframework.security.core.Authentication authentication =  authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email,password));
+    public Map<String,String> login (String username, String password){
+        System.out.println(username+" "+password);
+        org.springframework.security.core.Authentication authentication =  authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
         Instant instant=Instant.now();
         String scope = authentication.getAuthorities().stream().map(a->a.getAuthority()).collect(Collectors.joining(" "));
         JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
                 .issuedAt(instant)
                 .expiresAt(instant.plus(10, ChronoUnit.MINUTES))
-                .subject(email)
+                .subject(username)
                 .claim("scope",scope)
                 .build();
         JwtEncoderParameters jwtEncoderParameters=JwtEncoderParameters.from(JwsHeader.with(MacAlgorithm.HS512).build(),jwtClaimsSet);
