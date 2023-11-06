@@ -31,7 +31,7 @@ public class SecurityController {
     public Authentication authenticate(Authentication authentication){
         return authentication;
     }
-    @PostMapping("/auth/login")
+    @PostMapping("/login")
     public Map<String,String> login (String email, String password){
         System.out.println(email+" "+password);
         org.springframework.security.core.Authentication authentication =  authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email,password));
