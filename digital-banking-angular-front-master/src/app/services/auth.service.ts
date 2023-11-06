@@ -9,6 +9,7 @@ import { jwtDecode } from 'jwt-decode';
 export class AuthService {
   
   
+  
   isAuthenticated: boolean = false;
   roles: any;
   username: any;
@@ -43,5 +44,13 @@ export class AuthService {
     this.roles = undefined;
     window.localStorage.removeItem('jwt-token');
     this.router.navigateByUrl('/login');
+  }
+
+  public loadJwtTokenFromLocalStorage() {
+    let token = window.localStorage.getItem('jwt-token');
+    if (token) {
+      this.loadProfile({ 'access-token': token });
+      this.router.navigateByUrl('/admin/customers');
+    }
   }
 }
